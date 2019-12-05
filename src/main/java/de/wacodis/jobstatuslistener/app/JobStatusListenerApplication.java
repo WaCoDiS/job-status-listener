@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Arne
  */
 @SpringBootApplication
-public class JosStatusListenerApplication {
+public class JobStatusListenerApplication {
 
     
     
@@ -21,6 +21,6 @@ public class JosStatusListenerApplication {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SpringApplication.run(JosStatusListenerApplication.class, args);
+        SpringApplication.run(JobStatusListenerApplication.class, args);
     }
 }
