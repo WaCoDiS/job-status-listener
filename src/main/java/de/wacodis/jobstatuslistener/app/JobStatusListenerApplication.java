@@ -7,16 +7,20 @@ package de.wacodis.jobstatuslistener.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  *
  * @author Arne
  */
 @SpringBootApplication
+@ComponentScan({
+    "de.wacodis.jobstatuslistener.app",
+    "de.wacodis.jobstatuslistener.jobdefinitionapi",
+    "de.wacodis.jobstatuslistener.messaging.listener"
+})
 public class JobStatusListenerApplication {
 
-    
-    
     /**
      * @param args the command line arguments
      */
