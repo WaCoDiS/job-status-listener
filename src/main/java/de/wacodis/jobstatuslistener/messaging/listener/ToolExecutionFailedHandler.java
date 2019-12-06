@@ -8,12 +8,14 @@ package de.wacodis.jobstatuslistener.messaging.listener;
 import de.wacodis.jobstatuslistener.model.WacodisJobFailed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
 /**
  *
  * @author Arne
  */
+@EnableBinding(JobExecutionMessageListener.class)
 public class ToolExecutionFailedHandler implements MessageHandler<WacodisJobFailed>{
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ToolExecutionFailedHandler.class);
