@@ -5,10 +5,16 @@
  */
 package de.wacodis.jobstatuslistener.messaging.listener;
 
+import de.wacodis.jobstatuslistener.exception.JobStatusUpdateExeception;
+import de.wacodis.jobstatuslistener.http.jobdefinitionapi.JobStatusUpdateService;
+import de.wacodis.jobstatuslistener.model.ProductDescription;
 import de.wacodis.jobstatuslistener.model.WacodisJobDefinition;
 import de.wacodis.jobstatuslistener.model.WacodisJobExecution;
+import java.util.UUID;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
@@ -17,22 +23,37 @@ import org.springframework.cloud.stream.annotation.StreamListener;
  * @author Arne
  */
 @EnableBinding(JobExecutionMessageListener.class)
-public class ToolExecutionStartedHandler implements MessageHandler<WacodisJobExecution>{
-    
+public class ToolExecutionStartedHandler implements MessageHandler<WacodisJobExecution> {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ToolExecutionStartedHandler.class);
+
+    @Autowired
+    JobStatusUpdateService statusUpdateService;
 
     @Override
     @StreamListener(JobExecutionMessageListener.TOOLS_EXECTUTE)
     public void handleMessage(WacodisJobExecution msg) {
-        //TODO add JobDefinition to WacodisJobExecution or add Wacodis Job Id and get Definition from Wacodis Job Definition API)
-        //WacodisJobDefinition job = msg.getJobDefinition();
-        //TODO set job status and submit to Wacodis Job Definition API
-        //job.setStatus(WacodisJobDefinition.StatusEnum.RUNNING);
-        LOGGER.info("received job execution started message \n" + msg.toString());  
+        LOGGER.debug("received job execution started message:" + msg.toString());
+        LOGGER.info("update status of WacodisJobDefintion with id {} from WacodisJobExecution", msg.getWacodisJobIdentifier());
+        WacodisJobDefinition newJobSatus = buildNewJobStatus(msg);
+        try {
+           WacodisJobDefinition updatedJob =  this.statusUpdateService.updateStatus(newJobSatus);
+           LOGGER.info("status for WacodisJobDefinition {} successfully updated. Updated job data: {}", msg.getWacodisJobIdentifier(), updatedJob);
+        } catch (JobStatusUpdateExeception ex) {
+            LOGGER.error("error occured while updating status of WacodisJobDefinition " + msg.getWacodisJobIdentifier(), ex);
+        } 
     }
 
     @Override
     public Class<WacodisJobExecution> supportedMessageType() {
         return WacodisJobExecution.class;
+    }
+
+    private WacodisJobDefinition buildNewJobStatus(WacodisJobExecution jobExc) {
+        WacodisJobDefinition newStatusJobDef = new WacodisJobDefinition();
+        newStatusJobDef.setId(UUID.fromString(jobExc.getWacodisJobIdentifier()));
+        newStatusJobDef.setStatus(WacodisJobDefinition.StatusEnum.RUNNING); //started, now running
+
+        return newStatusJobDef;
     }
 }

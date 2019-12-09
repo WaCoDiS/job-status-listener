@@ -14,10 +14,8 @@ import org.springframework.context.annotation.ComponentScan;
  * @author Arne
  */
 @SpringBootApplication
-@ComponentScan({
-    "de.wacodis.jobstatuslistener.app",
-    "de.wacodis.jobstatuslistener.jobdefinitionapi",
-    "de.wacodis.jobstatuslistener.messaging.listener"
+@ComponentScan(basePackages = {
+    "de.wacodis.jobstatuslistener"
 })
 public class JobStatusListenerApplication {
 

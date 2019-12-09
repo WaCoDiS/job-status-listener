@@ -5,9 +5,15 @@
  */
 package de.wacodis.jobstatuslistener.messaging.listener;
 
+import de.wacodis.jobstatuslistener.exception.JobStatusUpdateExeception;
+import de.wacodis.jobstatuslistener.http.jobdefinitionapi.JobStatusUpdateService;
 import de.wacodis.jobstatuslistener.model.ProductDescription;
+import de.wacodis.jobstatuslistener.model.WacodisJobDefinition;
+import java.util.UUID;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
@@ -20,14 +26,21 @@ public class ToolExecutionFinishedHandler implements MessageHandler<ProductDescr
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ToolExecutionFinishedHandler.class);
     
+    @Autowired
+    JobStatusUpdateService statusUpdateService;
+    
     @Override
     @StreamListener(JobExecutionMessageListener.TOOLS_FINISHED)
     public void handleMessage(ProductDescription msg) {
-        //ToDO add WacodisJobIdentifier to ProductDescription
-        // set job status to waiting
-        //ToDO add Timestamp to ProductDesciption
-        // set lastFinisedExecution
-        LOGGER.info("received tool finished message /n" + msg.toString());
+        LOGGER.debug("received tool finished message: " + msg.toString());
+        LOGGER.info("update status of WacodisJobDefintion with id {} from ProducDescription", msg.getWacodisJobIdentifier());
+        WacodisJobDefinition newJobSatus = buildNewJobStatus(msg);
+        try {
+           WacodisJobDefinition updatedJob =  this.statusUpdateService.updateStatus(newJobSatus);
+           LOGGER.info("status for WacodisJobDefinition {} successfully updated. Updated job data: {}", msg.getWacodisJobIdentifier(), updatedJob);
+        } catch (JobStatusUpdateExeception ex) {
+            LOGGER.error("error occured while updating status of WacodisJobDefinition " + msg.getWacodisJobIdentifier(), ex);
+        } 
     }
 
     @Override
@@ -35,4 +48,13 @@ public class ToolExecutionFinishedHandler implements MessageHandler<ProductDescr
         return ProductDescription.class;
     }
     
+    
+    private WacodisJobDefinition buildNewJobStatus(ProductDescription prodDesc){
+        WacodisJobDefinition newStatusJobDef = new WacodisJobDefinition();
+        newStatusJobDef.setId(UUID.fromString(prodDesc.getWacodisJobIdentifier()));
+        newStatusJobDef.setStatus(WacodisJobDefinition.StatusEnum.WAITING); //set waiting after succesful execution
+        newStatusJobDef.setLastFinishedExecution(DateTime.now()); //TODO get from prodDesc
+        
+        return newStatusJobDef;
+    }
 }
