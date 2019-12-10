@@ -52,7 +52,7 @@ public class ToolExecutionFinishedHandler implements MessageHandler<ProductDescr
         WacodisJobDefinition newStatusJobDef = new WacodisJobDefinition();
         newStatusJobDef.setId(prodDesc.getWacodisJobIdentifier());
         newStatusJobDef.setStatus(WacodisJobDefinition.StatusEnum.WAITING); //set waiting after succesful execution
-        newStatusJobDef.setLastFinishedExecution(DateTime.now()); //TODO get from prodDesc
+        newStatusJobDef.setLastFinishedExecution(prodDesc.getExecutionFinished());
         
         return newStatusJobDef;
     }
