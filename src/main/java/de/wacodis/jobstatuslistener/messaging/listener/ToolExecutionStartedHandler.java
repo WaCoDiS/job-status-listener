@@ -31,7 +31,7 @@ public class ToolExecutionStartedHandler implements MessageHandler<WacodisJobExe
     @StreamListener(JobExecutionMessageListener.TOOLS_EXECTUTE)
     public void handleMessage(WacodisJobExecution msg) {
         LOGGER.debug("received job execution started message:" + msg.toString());
-        LOGGER.info("update status of WacodisJobDefintion with id {} from WacodisJobExecution", msg.getJobIdentifier());
+        LOGGER.info("update status of WacodisJobDefintion with id {} from WacodisJobExecution message", msg.getJobIdentifier());
         WacodisJobDefinition newJobSatus = buildNewJobStatus(msg);
         try {
            WacodisJobDefinition updatedJob =  this.statusUpdateService.updateStatus(newJobSatus);

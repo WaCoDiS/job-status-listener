@@ -32,7 +32,7 @@ public class ToolExecutionFinishedHandler implements MessageHandler<ProductDescr
     @StreamListener(JobExecutionMessageListener.TOOLS_FINISHED)
     public void handleMessage(ProductDescription msg) {
         LOGGER.debug("received tool finished message: " + msg.toString());
-        LOGGER.info("update status of WacodisJobDefintion with id {} from ProducDescription", msg.getWacodisJobIdentifier());
+        LOGGER.info("update status of WacodisJobDefintion with id {} from ProductDescription message", msg.getWacodisJobIdentifier());
         WacodisJobDefinition newJobSatus = buildNewJobStatus(msg);
         try {
            WacodisJobDefinition updatedJob =  this.statusUpdateService.updateStatus(newJobSatus);
