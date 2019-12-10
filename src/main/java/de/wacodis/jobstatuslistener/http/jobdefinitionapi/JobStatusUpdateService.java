@@ -18,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -36,7 +37,9 @@ public class JobStatusUpdateService implements JobStatusUpdater {
     RestTemplate apiConnector;
 
     public JobStatusUpdateService() {
+        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
         apiConnector = new RestTemplate();
+        apiConnector.setRequestFactory(requestFactory);
     }
 
     @Override
