@@ -7,11 +7,8 @@ package de.wacodis.jobstatuslistener.messaging.listener;
 
 import de.wacodis.jobstatuslistener.exception.JobStatusUpdateExeception;
 import de.wacodis.jobstatuslistener.http.jobdefinitionapi.JobStatusUpdateService;
-import de.wacodis.jobstatuslistener.model.ProductDescription;
 import de.wacodis.jobstatuslistener.model.WacodisJobDefinition;
 import de.wacodis.jobstatuslistener.model.WacodisJobExecution;
-import java.util.UUID;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +31,13 @@ public class ToolExecutionStartedHandler implements MessageHandler<WacodisJobExe
     @StreamListener(JobExecutionMessageListener.TOOLS_EXECTUTE)
     public void handleMessage(WacodisJobExecution msg) {
         LOGGER.debug("received job execution started message:" + msg.toString());
-        LOGGER.info("update status of WacodisJobDefintion with id {} from WacodisJobExecution", msg.getWacodisJobIdentifier());
+        LOGGER.info("update status of WacodisJobDefintion with id {} from WacodisJobExecution", msg.getJobIdentifier());
         WacodisJobDefinition newJobSatus = buildNewJobStatus(msg);
         try {
            WacodisJobDefinition updatedJob =  this.statusUpdateService.updateStatus(newJobSatus);
-           LOGGER.info("status for WacodisJobDefinition {} successfully updated. Updated job data: {}", msg.getWacodisJobIdentifier(), updatedJob);
+           LOGGER.info("status for WacodisJobDefinition {} successfully updated. Updated job data: {}", msg.getJobIdentifier(), updatedJob);
         } catch (JobStatusUpdateExeception ex) {
-            LOGGER.error("error occured while updating status of WacodisJobDefinition " + msg.getWacodisJobIdentifier(), ex);
+            LOGGER.error("error occured while updating status of WacodisJobDefinition " + msg.getJobIdentifier(), ex);
         } 
     }
 
@@ -51,7 +48,7 @@ public class ToolExecutionStartedHandler implements MessageHandler<WacodisJobExe
 
     private WacodisJobDefinition buildNewJobStatus(WacodisJobExecution jobExc) {
         WacodisJobDefinition newStatusJobDef = new WacodisJobDefinition();
-        newStatusJobDef.setId(UUID.fromString(jobExc.getWacodisJobIdentifier()));
+        newStatusJobDef.setId(jobExc.getJobIdentifier());
         newStatusJobDef.setStatus(WacodisJobDefinition.StatusEnum.RUNNING); //started, now running
 
         return newStatusJobDef;
