@@ -9,6 +9,7 @@ import de.wacodis.jobstatuslistener.exception.JobStatusUpdateExeception;
 import de.wacodis.jobstatuslistener.http.jobdefinitionapi.JobStatusUpdateService;
 import de.wacodis.jobstatuslistener.model.WacodisJobDefinition;
 import de.wacodis.jobstatuslistener.model.WacodisJobExecution;
+import de.wacodis.jobstatuslistener.model.WacodisJobStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class ToolExecutionStartedHandler implements MessageHandler<WacodisJobExe
     private WacodisJobDefinition buildNewJobStatus(WacodisJobExecution jobExc) {
         WacodisJobDefinition newStatusJobDef = new WacodisJobDefinition();
         newStatusJobDef.setId(jobExc.getJobIdentifier());
-        newStatusJobDef.setStatus(WacodisJobDefinition.StatusEnum.RUNNING); //started, now running
+        newStatusJobDef.setStatus(WacodisJobStatus.RUNNING); //started, now running
 
         return newStatusJobDef;
     }

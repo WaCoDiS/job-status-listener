@@ -9,6 +9,7 @@ import de.wacodis.jobstatuslistener.exception.JobStatusUpdateExeception;
 import de.wacodis.jobstatuslistener.http.jobdefinitionapi.JobStatusUpdateService;
 import de.wacodis.jobstatuslistener.model.WacodisJobDefinition;
 import de.wacodis.jobstatuslistener.model.WacodisJobFailed;
+import de.wacodis.jobstatuslistener.model.WacodisJobStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class ToolExecutionFailedHandler implements MessageHandler<WacodisJobFail
     private WacodisJobDefinition buildNewJobStatus(WacodisJobFailed jobFail) {
         WacodisJobDefinition newStatusJobDef = new WacodisJobDefinition();
         newStatusJobDef.setId(jobFail.getWacodisJobIdentifier());
-        newStatusJobDef.setStatus(WacodisJobDefinition.StatusEnum.WAITING); //set waiting after failed execution
+        newStatusJobDef.setStatus(WacodisJobStatus.WAITING); //set waiting after failed execution
 
         return newStatusJobDef;
     }

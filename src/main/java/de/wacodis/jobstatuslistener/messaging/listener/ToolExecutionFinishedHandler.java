@@ -9,6 +9,7 @@ import de.wacodis.jobstatuslistener.exception.JobStatusUpdateExeception;
 import de.wacodis.jobstatuslistener.http.jobdefinitionapi.JobStatusUpdateService;
 import de.wacodis.jobstatuslistener.model.ProductDescription;
 import de.wacodis.jobstatuslistener.model.WacodisJobDefinition;
+import de.wacodis.jobstatuslistener.model.WacodisJobStatus;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +52,7 @@ public class ToolExecutionFinishedHandler implements MessageHandler<ProductDescr
     private WacodisJobDefinition buildNewJobStatus(ProductDescription prodDesc){
         WacodisJobDefinition newStatusJobDef = new WacodisJobDefinition();
         newStatusJobDef.setId(prodDesc.getWacodisJobIdentifier());
-        newStatusJobDef.setStatus(WacodisJobDefinition.StatusEnum.WAITING); //set waiting after succesful execution
+        newStatusJobDef.setStatus(WacodisJobStatus.WAITING); //set waiting after succesful execution
         newStatusJobDef.setLastFinishedExecution(prodDesc.getExecutionFinished());
         
         return newStatusJobDef;
