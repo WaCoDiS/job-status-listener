@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties("spring.jobdefinitionapi")
 public class JobDefinitionAPIConfig {
 
-    @Value("${spring.jobdefinitionapi.baseUrl:localhost:8080}")
+    @Value("${spring.jobdefinitionapi.baseUrl:http://localhost:8081}")
     private String baseUrl;
     @Value("${spring.jobdefinitionapi.apiEndpoint:/jobDefinitions/jobstatus/}")
     private String apiEndpoint;
