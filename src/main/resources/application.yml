@@ -31,6 +31,10 @@ spring:
     port: 5672
     username: guest
     password: guest
+  jobdefinitionapi:
+    baseurl: http://localhost:8081
+    apiendpoint: /jobDefinitions/jobstatus/
+    # httpmethod: PATCH
 management:
   security:
     enabled: false
