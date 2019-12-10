@@ -10,6 +10,7 @@ import de.wacodis.jobstatuslistener.http.jobdefinitionapi.JobStatusUpdateService
 import de.wacodis.jobstatuslistener.model.WacodisJobDefinition;
 import de.wacodis.jobstatuslistener.model.WacodisJobFailed;
 import de.wacodis.jobstatuslistener.model.WacodisJobStatus;
+import de.wacodis.jobstatuslistener.model.WacodisJobStatusUpdate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class ToolExecutionFailedHandler implements MessageHandler<WacodisJobFail
     public void handleMessage(WacodisJobFailed msg) {
         LOGGER.debug("received new job execution failed message: " + msg.toString());
         LOGGER.info("update status of WacodisJobDefintion with id {} from WacodisJobFailed message", msg.getWacodisJobIdentifier());
-        WacodisJobDefinition newJobSatus = buildNewJobStatus(msg);
+        WacodisJobStatusUpdate newJobSatus = buildNewJobStatus(msg);
         try {
             WacodisJobDefinition updatedJob = this.statusUpdateService.updateStatus(newJobSatus);
             LOGGER.info("status for WacodisJobDefinition {} successfully updated. Updated job data: {}", msg.getWacodisJobIdentifier(), updatedJob);
@@ -42,12 +43,12 @@ public class ToolExecutionFailedHandler implements MessageHandler<WacodisJobFail
         }
     }
 
-    private WacodisJobDefinition buildNewJobStatus(WacodisJobFailed jobFail) {
-        WacodisJobDefinition newStatusJobDef = new WacodisJobDefinition();
-        newStatusJobDef.setId(jobFail.getWacodisJobIdentifier());
-        newStatusJobDef.setStatus(WacodisJobStatus.WAITING); //set waiting after failed execution
+    private WacodisJobStatusUpdate buildNewJobStatus(WacodisJobFailed jobFail) {
+        WacodisJobStatusUpdate newStatus = new WacodisJobStatusUpdate();
+        newStatus.setWacodisJobIdentifier(jobFail.getWacodisJobIdentifier());
+        newStatus.setNewStatus(WacodisJobStatus.WAITING); //set waiting after failed execution
 
-        return newStatusJobDef;
+        return newStatus;
     }
 
     @Override

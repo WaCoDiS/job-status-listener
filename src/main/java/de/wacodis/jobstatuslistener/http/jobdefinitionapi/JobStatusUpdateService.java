@@ -8,6 +8,7 @@ package de.wacodis.jobstatuslistener.http.jobdefinitionapi;
 import de.wacodis.jobstatuslistener.configuration.JobDefinitionAPIConfig;
 import de.wacodis.jobstatuslistener.exception.JobStatusUpdateExeception;
 import de.wacodis.jobstatuslistener.model.WacodisJobDefinition;
+import de.wacodis.jobstatuslistener.model.WacodisJobStatusUpdate;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -43,23 +44,23 @@ public class JobStatusUpdateService implements JobStatusUpdater {
     }
 
     @Override
-    public WacodisJobDefinition updateStatus(WacodisJobDefinition newJobStatus) throws JobStatusUpdateExeception {
-        if (newJobStatus.getId() == null) {
+    public WacodisJobDefinition updateStatus(WacodisJobStatusUpdate newJobStatus) throws JobStatusUpdateExeception {
+        if (newJobStatus.getWacodisJobIdentifier() == null) {
             throw new JobStatusUpdateExeception("job identifier missing, unable to update status for WacodisJobDefinition: " + newJobStatus.toString());
         }
-        if (newJobStatus.getStatus() == null) {
+        if (newJobStatus.getNewStatus() == null) {
             throw new JobStatusUpdateExeception("new status is null, unable to update status for WacodisJobDefinition: " + newJobStatus.toString());
         }
 
         try {
-            LOGGER.info("update status for WacodisJobDefintion {}, new status {}", newJobStatus.getId(), newJobStatus.getStatus());
-            HttpEntity<WacodisJobDefinition> body = new HttpEntity<>(newJobStatus, getHeaders());
+            LOGGER.info("update status for WacodisJobDefintion {}, new status {}", newJobStatus.getWacodisJobIdentifier(), newJobStatus.getNewStatus());
+            HttpEntity<WacodisJobStatusUpdate> body = new HttpEntity<>(newJobStatus, getHeaders());
             ResponseEntity<WacodisJobDefinition> statusUpdateResponse = apiConnector.exchange(concatUrl().toURI(), HttpMethod.resolve(config.getHttpMethod()), body, WacodisJobDefinition.class);
-            LOGGER.info("successfully updated status for WacodisJobDefintion {}", newJobStatus.getId());
+            LOGGER.info("successfully updated status for WacodisJobDefintion {}", newJobStatus.getWacodisJobIdentifier());
 
             return statusUpdateResponse.getBody();
         } catch (Exception e) {
-            throw new JobStatusUpdateExeception("unable to update status for WacodisJobDefinition with id " + newJobStatus.getId().toString(), e);
+            throw new JobStatusUpdateExeception("unable to update status for WacodisJobDefinition with id " + newJobStatus.getWacodisJobIdentifier().toString(), e);
         }
     }
 

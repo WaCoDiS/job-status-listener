@@ -7,6 +7,7 @@ package de.wacodis.jobstatuslistener.http.jobdefinitionapi;
 
 import de.wacodis.jobstatuslistener.exception.JobStatusUpdateExeception;
 import de.wacodis.jobstatuslistener.model.WacodisJobDefinition;
+import de.wacodis.jobstatuslistener.model.WacodisJobStatusUpdate;
 
 /**
  *
@@ -20,6 +21,6 @@ public interface JobStatusUpdater {
      * @return job data after update
      * @throws de.wacodis.jobstatuslistener.exception.JobStatusUpdateExeception
      */
-    WacodisJobDefinition updateStatus(WacodisJobDefinition newJobStatus) throws JobStatusUpdateExeception;
+    WacodisJobDefinition updateStatus(WacodisJobStatusUpdate newJobStatus) throws JobStatusUpdateExeception;
 
 }

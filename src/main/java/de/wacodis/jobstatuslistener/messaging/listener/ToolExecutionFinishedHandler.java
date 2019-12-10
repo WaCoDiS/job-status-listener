@@ -10,6 +10,7 @@ import de.wacodis.jobstatuslistener.http.jobdefinitionapi.JobStatusUpdateService
 import de.wacodis.jobstatuslistener.model.ProductDescription;
 import de.wacodis.jobstatuslistener.model.WacodisJobDefinition;
 import de.wacodis.jobstatuslistener.model.WacodisJobStatus;
+import de.wacodis.jobstatuslistener.model.WacodisJobStatusUpdate;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ public class ToolExecutionFinishedHandler implements MessageHandler<ProductDescr
     public void handleMessage(ProductDescription msg) {
         LOGGER.debug("received tool finished message: " + msg.toString());
         LOGGER.info("update status of WacodisJobDefintion with id {} from ProductDescription message", msg.getWacodisJobIdentifier());
-        WacodisJobDefinition newJobSatus = buildNewJobStatus(msg);
+        WacodisJobStatusUpdate newJobSatus = buildNewJobStatus(msg);
         try {
            WacodisJobDefinition updatedJob =  this.statusUpdateService.updateStatus(newJobSatus);
            LOGGER.info("status for WacodisJobDefinition {} successfully updated. Updated job data: {}", msg.getWacodisJobIdentifier(), updatedJob);
@@ -49,11 +50,11 @@ public class ToolExecutionFinishedHandler implements MessageHandler<ProductDescr
     }
     
     
-    private WacodisJobDefinition buildNewJobStatus(ProductDescription prodDesc){
-        WacodisJobDefinition newStatusJobDef = new WacodisJobDefinition();
-        newStatusJobDef.setId(prodDesc.getWacodisJobIdentifier());
-        newStatusJobDef.setStatus(WacodisJobStatus.WAITING); //set waiting after succesful execution
-        newStatusJobDef.setLastFinishedExecution(prodDesc.getExecutionFinished());
+    private WacodisJobStatusUpdate buildNewJobStatus(ProductDescription prodDesc){
+        WacodisJobStatusUpdate newStatusJobDef = new WacodisJobStatusUpdate();
+        newStatusJobDef.setWacodisJobIdentifier(prodDesc.getWacodisJobIdentifier());
+        newStatusJobDef.setNewStatus(WacodisJobStatus.WAITING); //set waiting after succesful execution
+        newStatusJobDef.setExecutionFinished(prodDesc.getExecutionFinished());
         
         return newStatusJobDef;
     }

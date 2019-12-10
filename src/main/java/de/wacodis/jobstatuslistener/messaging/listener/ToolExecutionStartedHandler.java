@@ -10,6 +10,7 @@ import de.wacodis.jobstatuslistener.http.jobdefinitionapi.JobStatusUpdateService
 import de.wacodis.jobstatuslistener.model.WacodisJobDefinition;
 import de.wacodis.jobstatuslistener.model.WacodisJobExecution;
 import de.wacodis.jobstatuslistener.model.WacodisJobStatus;
+import de.wacodis.jobstatuslistener.model.WacodisJobStatusUpdate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class ToolExecutionStartedHandler implements MessageHandler<WacodisJobExe
     public void handleMessage(WacodisJobExecution msg) {
         LOGGER.debug("received job execution started message:" + msg.toString());
         LOGGER.info("update status of WacodisJobDefintion with id {} from WacodisJobExecution message", msg.getJobIdentifier());
-        WacodisJobDefinition newJobSatus = buildNewJobStatus(msg);
+        WacodisJobStatusUpdate newJobSatus = buildNewJobStatus(msg);
         try {
            WacodisJobDefinition updatedJob =  this.statusUpdateService.updateStatus(newJobSatus);
            LOGGER.info("status for WacodisJobDefinition {} successfully updated. Updated job data: {}", msg.getJobIdentifier(), updatedJob);
@@ -47,10 +48,10 @@ public class ToolExecutionStartedHandler implements MessageHandler<WacodisJobExe
         return WacodisJobExecution.class;
     }
 
-    private WacodisJobDefinition buildNewJobStatus(WacodisJobExecution jobExc) {
-        WacodisJobDefinition newStatusJobDef = new WacodisJobDefinition();
-        newStatusJobDef.setId(jobExc.getJobIdentifier());
-        newStatusJobDef.setStatus(WacodisJobStatus.RUNNING); //started, now running
+    private WacodisJobStatusUpdate buildNewJobStatus(WacodisJobExecution jobExc) {
+        WacodisJobStatusUpdate newStatusJobDef = new WacodisJobStatusUpdate();
+        newStatusJobDef.setWacodisJobIdentifier(jobExc.getJobIdentifier());
+        newStatusJobDef.setNewStatus(WacodisJobStatus.RUNNING); //started, now running
 
         return newStatusJobDef;
     }
