@@ -31,6 +31,8 @@ import org.springframework.web.client.RestTemplate;
 public class JobStatusUpdateService implements JobStatusUpdater {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(JobStatusUpdateService.class);
+    
+    private static final MediaType REQUESTMEDIATYPE = MediaType.APPLICATION_JSON;
 
     @Autowired
     JobDefinitionAPIConfig config;
@@ -40,7 +42,7 @@ public class JobStatusUpdateService implements JobStatusUpdater {
     public JobStatusUpdateService() {
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
         apiConnector = new RestTemplate();
-        apiConnector.setRequestFactory(requestFactory);
+        apiConnector.setRequestFactory(requestFactory); //needed to support HTTP PATCH
     }
 
     @Override
@@ -60,7 +62,7 @@ public class JobStatusUpdateService implements JobStatusUpdater {
 
             return statusUpdateResponse.getBody();
         } catch (Exception e) {
-            throw new JobStatusUpdateExeception("unable to update status for WacodisJobDefinition with id " + newJobStatus.getWacodisJobIdentifier().toString(), e);
+            throw new JobStatusUpdateExeception("unable to update status for WacodisJobDefinition with id " + newJobStatus.getWacodisJobIdentifier(), e);
         }
     }
 
@@ -73,7 +75,7 @@ public class JobStatusUpdateService implements JobStatusUpdater {
 
     private HttpHeaders getHeaders() {
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setAccept(Arrays.asList(REQUESTMEDIATYPE));
 
         return headers;
     }
