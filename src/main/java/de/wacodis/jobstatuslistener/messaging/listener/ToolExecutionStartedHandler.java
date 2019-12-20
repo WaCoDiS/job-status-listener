@@ -33,13 +33,13 @@ public class ToolExecutionStartedHandler implements MessageHandler<WacodisJobExe
     @StreamListener(JobExecutionMessageListener.TOOLS_EXECTUTE)
     public void handleMessage(WacodisJobExecution msg) {
         LOGGER.debug("received job execution started message:" + msg.toString());
-        LOGGER.info("update status of WacodisJobDefintion with id {} from WacodisJobExecution message", msg.getJobIdentifier());
+        LOGGER.info("update status of WacodisJobDefintion with id {} from WacodisJobExecution message", msg.getWacodisJobIdentifier());
         WacodisJobStatusUpdate newJobSatus = buildNewJobStatus(msg);
         try {
            WacodisJobDefinition updatedJob =  this.statusUpdateService.updateStatus(newJobSatus);
-           LOGGER.info("status for WacodisJobDefinition {} successfully updated. Updated job data: {}", msg.getJobIdentifier(), updatedJob);
+           LOGGER.info("status for WacodisJobDefinition {} successfully updated. Updated job data: {}", msg.getWacodisJobIdentifier(), updatedJob);
         } catch (JobStatusUpdateExeception ex) {
-            LOGGER.error("error occured while updating status of WacodisJobDefinition " + msg.getJobIdentifier(), ex);
+            LOGGER.error("error occured while updating status of WacodisJobDefinition " + msg.getWacodisJobIdentifier(), ex);
         } 
     }
 
@@ -50,7 +50,7 @@ public class ToolExecutionStartedHandler implements MessageHandler<WacodisJobExe
 
     private WacodisJobStatusUpdate buildNewJobStatus(WacodisJobExecution jobExc) {
         WacodisJobStatusUpdate newStatusJobDef = new WacodisJobStatusUpdate();
-        newStatusJobDef.setWacodisJobIdentifier(jobExc.getJobIdentifier());
+        newStatusJobDef.setWacodisJobIdentifier(jobExc.getWacodisJobIdentifier());
         newStatusJobDef.setNewStatus(WacodisJobStatus.RUNNING); //started, now running
 
         return newStatusJobDef;
