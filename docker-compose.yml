@@ -1,0 +1,10 @@
+version: "3"
+services:
+  job-status-listener:
+    build:
+      context: .
+    image: registry.wacodis.demo.52north.org/job-status-listener:latest
+    ports:
+      - 8080:8080
+    environment: 
+      - spring.rabbitmq.host=test.52north.org
