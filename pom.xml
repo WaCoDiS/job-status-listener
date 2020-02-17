@@ -15,8 +15,15 @@
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
         <spring-fox.version>2.9.2</spring-fox.version>
         <mockito.version>2.21.0</mockito.version>
+        <app.finalName>${project.artifactId}-${project.version}</app.finalName>
     </properties>
     
+    <scm>
+		<url>https://github.com/WaCoDiS/job-status-listener/</url>
+		<connection>scm:git:git://github.com/WaCoDiS/job-status-listener.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/WaCoDiS/job-status-listener.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
     
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -103,6 +110,7 @@
 
     
     <build>
+        <finalName>${app.finalName}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -133,7 +141,7 @@
                                         <artifactItem>
                                             <groupId>de.wacodis</groupId>
                                             <artifactId>openapi</artifactId>
-                                            <version>0.0.1-SNAPSHOT</version>
+                                            <version>1.0.0</version>
                                             <type>jar</type>
                                             <includes>definitions/wacodis-schemas.yml</includes>
                                             <outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
@@ -176,7 +184,7 @@
                 <dependency>
                     <groupId>de.wacodis</groupId>
                     <artifactId>openapi</artifactId>
-                    <version>0.0.1-SNAPSHOT</version>
+                    <version>1.0.0</version>
                 </dependency>
                 <dependency>
                     <groupId>org.openapitools</groupId>
