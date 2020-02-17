@@ -5,7 +5,7 @@ COPY . /
 RUN mvn -f /pom.xml clean install -DskipTests -P download-generate-models
 
 # runnable image
-FROM openjdk:8-jdk-alpine
+FROM adoptopenjdk/openjdk8:alpine
 
 COPY --from=build /target/job-status-listener-0.0.1-SNAPSHOT.jar /app.jar 
 
