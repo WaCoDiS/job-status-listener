@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * definition of temporal coverage for which input data (see SubsetDefinitions) is of relevancy. Only one of the properties shall be provided. 
  */
 @ApiModel(description = "definition of temporal coverage for which input data (see SubsetDefinitions) is of relevancy. Only one of the properties shall be provided. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-02-17T12:10:02.482+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-03-04T16:32:16.387+01:00[Europe/Berlin]")
 
 public class WacodisJobDefinitionTemporalCoverage  implements Serializable {
   private static final long serialVersionUID = 1L;
