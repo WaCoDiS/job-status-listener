@@ -23,7 +23,7 @@
 		<url>https://github.com/WaCoDiS/job-status-listener/</url>
 		<connection>scm:git:git://github.com/WaCoDiS/job-status-listener.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/WaCoDiS/job-status-listener.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>v1.0.0</tag>
 	</scm>
     
     <parent>
