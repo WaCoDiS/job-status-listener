@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.wacodis</groupId>
     <artifactId>job-status-listener</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>WaCoDiS Job Status Listener</name>
     <packaging>jar</packaging>
     
@@ -23,7 +23,7 @@
 		<url>https://github.com/WaCoDiS/job-status-listener/</url>
 		<connection>scm:git:git://github.com/WaCoDiS/job-status-listener.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/WaCoDiS/job-status-listener.git</developerConnection>
-		<tag>v1.0.0</tag>
+		<tag>HEAD</tag>
 	</scm>
     
     <parent>
