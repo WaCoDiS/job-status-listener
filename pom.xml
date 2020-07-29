@@ -16,6 +16,7 @@
         <spring-fox.version>2.9.2</spring-fox.version>
         <mockito.version>2.21.0</mockito.version>
         <app.finalName>${project.artifactId}-${project.version}</app.finalName>
+        <release-plugin.version>3.0.0-M1</release-plugin.version>
     </properties>
     
     <scm>
@@ -115,6 +116,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${release-plugin.version}</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <pushChanges>false</pushChanges>
+                </configuration>
             </plugin>
         </plugins>
     </build>
