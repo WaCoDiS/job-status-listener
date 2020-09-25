@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * determine if job execution should be retried after failed execution 
  */
 @ApiModel(description = "determine if job execution should be retried after failed execution ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-03-04T16:32:16.387+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-09-25T17:01:43.857+02:00[Europe/Berlin]")
 
 public class WacodisJobDefinitionRetrySettings  implements Serializable {
   private static final long serialVersionUID = 1L;
