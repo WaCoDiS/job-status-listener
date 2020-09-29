@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  * describes specific metadata information about a dataset from a catalogue service that is part of a SDI
  */
 @ApiModel(description = "describes specific metadata information about a dataset from a catalogue service that is part of a SDI")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-09-29T13:37:51.239+02:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-09-29T17:20:28.926+02:00[Europe/Berlin]")
 
 public class GdiDeDataEnvelope extends AbstractDataEnvelope implements Serializable {
   private static final long serialVersionUID = 1L;
