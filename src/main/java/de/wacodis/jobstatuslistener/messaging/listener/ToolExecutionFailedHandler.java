@@ -44,10 +44,17 @@ public class ToolExecutionFailedHandler implements MessageHandler<WacodisJobFail
     }
 
     private WacodisJobStatusUpdate buildNewJobStatus(WacodisJobFailed jobFail) {
+        WacodisJobStatus newJobStatus;
+        
         WacodisJobStatusUpdate newStatusJobDef = new WacodisJobStatusUpdate();
         newStatusJobDef.setWacodisJobIdentifier(jobFail.getWacodisJobIdentifier());
-        //set waiting after succesful execution or finished if single execution job
-        WacodisJobStatus newJobStatus = (jobFail.getSingleExecutionJob()) ? WacodisJobStatus.FINISHED : WacodisJobStatus.WAITING;
+        //only set status to waiting/finished if last sub process of wacodis job
+        if (jobFail.getFinalJobProcess()) {
+            //set waiting after succesful execution or finished if single execution job
+            newJobStatus = (jobFail.getSingleExecutionJob()) ? WacodisJobStatus.FINISHED : WacodisJobStatus.WAITING;
+        } else {
+            newJobStatus = WacodisJobStatus.RUNNING;
+        }
         newStatusJobDef.setNewStatus(newJobStatus);
 
         return newStatusJobDef;
