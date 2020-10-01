@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.wacodis</groupId>
     <artifactId>job-status-listener</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <name>WaCoDiS Job Status Listener</name>
     <packaging>jar</packaging>
     
@@ -20,11 +20,11 @@
     </properties>
     
     <scm>
-		<url>https://github.com/WaCoDiS/job-status-listener/</url>
-		<connection>scm:git:git://github.com/WaCoDiS/job-status-listener.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/WaCoDiS/job-status-listener.git</developerConnection>
-		<tag>v1.0.0</tag>
-	</scm>
+        <url>https://github.com/WaCoDiS/job-status-listener/</url>
+        <connection>scm:git:git://github.com/WaCoDiS/job-status-listener.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/WaCoDiS/job-status-listener.git</developerConnection>
+        <tag>v1.0.1</tag>
+    </scm>
     
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -120,7 +120,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>${release-plugin.version}</version>
                 <configuration>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                     <pushChanges>false</pushChanges>
@@ -270,3 +269,4 @@
         </profile>
     </profiles>
 </project>
+

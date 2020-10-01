@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import de.wacodis.jobstatuslistener.model.AbstractSubsetDefinition;
+import de.wacodis.jobstatuslistener.model.AbstractSubsetDefinitionTemporalCoverage;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -15,7 +16,7 @@ import javax.validation.constraints.*;
  * contains information for defining a subset definition for Copernicus process inputs
  */
 @ApiModel(description = "contains information for defining a subset definition for Copernicus process inputs")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-07-29T08:29:40.209+02:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-09-29T17:20:28.926+02:00[Europe/Berlin]")
 
 public class CopernicusSubsetDefinition extends AbstractSubsetDefinition implements Serializable {
   private static final long serialVersionUID = 1L;

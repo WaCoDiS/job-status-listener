@@ -22,13 +22,13 @@ import org.springframework.cloud.stream.annotation.StreamListener;
  * @author Arne
  */
 @EnableBinding(JobExecutionMessageListener.class)
-public class ToolExecutionFinishedHandler implements MessageHandler<WacodisJobFinished>{
+public class ToolExecutionFinishedHandler implements MessageHandler<WacodisJobFinished> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ToolExecutionFinishedHandler.class);
-    
+
     @Autowired
     JobStatusUpdateService statusUpdateService;
-    
+
     @Override
     @StreamListener(JobExecutionMessageListener.TOOLS_FINISHED)
     public void handleMessage(WacodisJobFinished msg) {
@@ -36,24 +36,33 @@ public class ToolExecutionFinishedHandler implements MessageHandler<WacodisJobFi
         LOGGER.info("update status of WacodisJobDefintion with id {} from ProductDescription message", msg.getWacodisJobIdentifier());
         WacodisJobStatusUpdate newJobSatus = buildNewJobStatus(msg);
         try {
-           WacodisJobDefinition updatedJob =  this.statusUpdateService.updateStatus(newJobSatus);
-           LOGGER.info("status for WacodisJobDefinition {} successfully updated. Updated job data: {}", msg.getWacodisJobIdentifier(), updatedJob);
+            WacodisJobDefinition updatedJob = this.statusUpdateService.updateStatus(newJobSatus);
+            LOGGER.info("status for WacodisJobDefinition {} successfully updated. Updated job data: {}", msg.getWacodisJobIdentifier(), updatedJob);
         } catch (JobStatusUpdateExeception ex) {
             LOGGER.error("error occured while updating status of WacodisJobDefinition " + msg.getWacodisJobIdentifier(), ex);
-        } 
+        }
     }
 
     @Override
     public Class<WacodisJobFinished> supportedMessageType() {
         return WacodisJobFinished.class;
     }
-    
-    private WacodisJobStatusUpdate buildNewJobStatus(WacodisJobFinished jobFinishedInfo){
+
+    private WacodisJobStatusUpdate buildNewJobStatus(WacodisJobFinished jobFinishedInfo) {
+        WacodisJobStatus newJobStatus;
+
         WacodisJobStatusUpdate newStatusJobDef = new WacodisJobStatusUpdate();
         newStatusJobDef.setWacodisJobIdentifier(jobFinishedInfo.getWacodisJobIdentifier());
-        newStatusJobDef.setNewStatus(WacodisJobStatus.WAITING); //set waiting after succesful execution
         newStatusJobDef.setExecutionFinished(jobFinishedInfo.getExecutionFinished());
-        
+        //only set status to waiting/finished if last sub process of wacodis job
+        if (jobFinishedInfo.getFinalJobProcess()) {
+            //set waiting after succesful execution or finished if single execution job
+            newJobStatus = (jobFinishedInfo.getSingleExecutionJob()) ? WacodisJobStatus.FINISHED : WacodisJobStatus.WAITING;
+        } else {
+            newJobStatus = WacodisJobStatus.RUNNING;
+        }
+        newStatusJobDef.setNewStatus(newJobStatus);
+
         return newStatusJobDef;
     }
 }

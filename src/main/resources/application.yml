@@ -11,17 +11,17 @@ spring:
     stream:
       bindings:
         tools-execute:
-          destination: wacodis.prod.tools.execute
+          destination: wacodis.test.tools.execute
           binder: wacodis_rabbit
           group: messageConsumers
           content-type: application/json
         tools-finished:
-          destination: wacodis.prod.tools.finished
+          destination: wacodis.test.tools.finished
           binder: wacodis_rabbit
           group: messageConsumers
           content-type: application/json
         tools-failure:
-          destination: wacodis.prod.tools.failure
+          destination: wacodis.test.tools.failure
           binder: wacodis_rabbit
           group: messageConsumers
           content-type: application/json
@@ -31,8 +31,8 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: rabbitmq
+    password: rabbitmq
   jobdefinitionapi:
     baseurl: http://localhost:8081
     apiendpoint: /jobDefinitions/jobstatus/
