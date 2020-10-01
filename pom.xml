@@ -19,11 +19,11 @@
     </properties>
     
     <scm>
-		<url>https://github.com/WaCoDiS/job-status-listener/</url>
-		<connection>scm:git:git://github.com/WaCoDiS/job-status-listener.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/WaCoDiS/job-status-listener.git</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
+        <url>https://github.com/WaCoDiS/job-status-listener/</url>
+        <connection>scm:git:git://github.com/WaCoDiS/job-status-listener.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/WaCoDiS/job-status-listener.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
     
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -115,6 +115,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <pushChanges>false</pushChanges>
+                </configuration>
             </plugin>
         </plugins>
     </build>
