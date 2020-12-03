@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 /**
  * WacodisJobStatusUpdate
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-12-03T12:15:33.639+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-12-03T17:39:27+01:00[Europe/Berlin]")
 
 public class WacodisJobStatusUpdate  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -60,8 +60,7 @@ public class WacodisJobStatusUpdate  implements Serializable {
    * point in time when job execution finished successfully, only needed for updates after succesful job execution 
    * @return executionFinished
   **/
-  @ApiModelProperty(required = true, value = "point in time when job execution finished successfully, only needed for updates after succesful job execution ")
-  @NotNull
+  @ApiModelProperty(value = "point in time when job execution finished successfully, only needed for updates after succesful job execution ")
 
   @Valid
 
