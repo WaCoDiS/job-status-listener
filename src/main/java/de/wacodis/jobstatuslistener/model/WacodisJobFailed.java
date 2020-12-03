@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * message to indicate a job execution failed 
  */
 @ApiModel(description = "message to indicate a job execution failed ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-09-29T17:20:28.926+02:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-12-03T12:15:33.639+01:00[Europe/Berlin]")
 
 public class WacodisJobFailed  implements Serializable {
   private static final long serialVersionUID = 1L;
