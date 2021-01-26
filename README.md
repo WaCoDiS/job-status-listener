@@ -18,6 +18,8 @@ The **WaCoDiS Job Status Listener** interacts with the WaCoDiS Job Management AP
   * [Deployment](#deployment)
     * [Preconditions](#preconditions)
 4. [User Guide](#user-guide)
+  * [Run Job Status Listener](#run-job-status-listener)
+    * [Using Docker](#using-docker)
 5. [Contribution - Developer Information](#contribution---developer-information)
   * [Branching](#branching) 
   * [License and Third Party Lib POM Plugins](#license-and-third-party-lib-pom-plugins)
@@ -45,6 +47,22 @@ For a detailed overview about the WaCoDiS system architecture please visit the
 The **WaCoDiS Job Status Listerner** is an intermediate componenten that subscribes to message about progress of running WaCoDiS processing jobs. The Job Status Listener interacts with **[WaCoDiS Job Manager](https://github.com/WaCoDiS/job-definition-api)**. Information about a job's processing progress are received via the WaCoDiS System's message broker (RabbitMQ). Received information about processing progress are used to update the corresponding job's status by communication with Job Manager's REST API.
 ### Modules
 The WaCoDiS Job Status Listener is a stand-alone Spring Boot application comprisiung only a single module.
+### Utilized Technologies
+* Java  
+WaCoDiS Job Status Listener uses (as most of the WaCoDiS components) the java programming language. WaCoDiS Data Access is tested with Oracle JDK 8 and OpenJDK 8. Unless stated otherwise later Java versions can be used as well.
+* Maven  
+The project WaCoDiS Job Status Listener uses the build-management tool Apache [maven](https://maven.apache.org/)
+* Spring Boot  
+WaCoDiS Job Status Listener is a standalone application built with the [Spring Boot](https://spring.io/projects/spring-boot) framework.
+* Spring Cloud  
+[Spring Cloud](https://spring.io/projects/spring-cloud) is used for exploiting some ready-to-use features in order to implement
+an event-driven workflow. In particular, [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) is used
+for subscribing to asynchronous messages within thw WaCoDiS system.
+* RabbitMQ  
+For communication with other WaCoDiS components of the WaCoDiS system the message broker [RabbitMQ](https://www.rabbitmq.com/) is utilized. RabbitMQ is not part of WaCoDiS Data Access and therefore [must be deployed separately](#preconditions) if WaCoDIS Data Access is deployed as part of the whole WaCoDiS system. 
+* OpenAPI  
+OpenAPI is used for the specification of core WaCoDiS data model and APIs.  
+
 
 ## Installation / Building Information
 ### Build from Source
@@ -80,8 +98,16 @@ The server addresses are [configurable](#configuration).
  * If [configuration](#configuration) should be fetched from Configuration Server a running instance of [WaCoDiS Config Server](https://github.com/WaCoDiS/config-server) must be available.
 
 ## User Guide
-TODO
-Describe how to run and use this component
+### Run Job Status Listener
+Currently there are no pre-compiled binaries available for WaCoDiS Job Status Listener. Job Status Listener must be [built from source](#installation--building-information). Alternatively Docker can be used to (build and) run WaCoDiS Job Status Listener.
+
+Job Status Listener is a Spring Boot application. Execute the compiled jar (`java -jar  job-status-listener.jar`) or run *de.wacodis.jobstatuslistener.app.JobStatusListenerApplication.java* in IDE to start the Job Status Listener.
+
+#### Using Docker
+1. Build Docker Image from [Dockerfile](https://github.com/WaCoDiS/job-status-listener/blob/master/Dockerfile) that resides in the project's root folder.
+2. Run created Docker Image.
+
+Alternatively, latest available docker image (automatically built from master branch) can be pulled from [Docker Hub](https://hub.docker.com/r/wacodis/data-access-api). See [WaCoDiS Docker repository](https://github.com/WaCoDiS/wacodis-docker) for pre-configured Docker Compose files to run WaCoDiS system components and backend services (RabbitMQ and Elasticsearch).
 
 ## Contribution - Developer Information
 This section contains information for developers.
