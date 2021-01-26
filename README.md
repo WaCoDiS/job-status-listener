@@ -89,8 +89,8 @@ parameters related to messages on started processing jobs
 | value     | description       | note  |
 | ------------- |-------------| -----|
 | destination     | topic used to receive messages about started WaCoDiS jobs | e.g. *wacodis.test.tools.execute* |
-| binder      | defines the binder (message broker)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *wacodis_rabbit* |
-| content-type      | content type of  DataEnvelope acknowledgement messages (mime type)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *application/json* |
+| binder      | defines the binder (message broker)   | |
+| content-type      | content type of  DataEnvelope acknowledgement messages (mime type)   | should always be *application/json* |
 
 
 ##### spring/cloud/stream/bindings/wacodis.test.tools-finished
@@ -99,8 +99,8 @@ parameters related to message on successfully finished proessing jobs
 | value     | description       | note  |
 | ------------- |-------------| -----|
 | destination     | topic used to receive message about successfully executed WaCoDiS jobs | e.g. *wacodis.test.tools.finished* |
-| binder      | defines the binder (message broker)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *wacodis_rabbit* |
-| content-type      | content type of  DataEnvelope acknowledgement messages (mime type)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *application/json* |
+| binder      | defines the binder (message broker)   |  |
+| content-type      | content type of  DataEnvelope acknowledgement messages (mime type)   | should always be *application/json*  |
 
 ##### spring/cloud/stream/bindings/wacodis.test.tools-failure
 parameters related to messages on failed processing jobs
@@ -108,8 +108,8 @@ parameters related to messages on failed processing jobs
 | value     | description       | note  |
 | ------------- |-------------| -----|
 | destination     | topic used to receive messages about failed WacoDiS jobs| e.g. *wacodis.test.tools.failure* |
-| binder      | defines the binder (message broker)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *wacodis_rabbit* |
-| content-type      | content type of  DataEnvelope acknowledgement messages (mime type)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *application/json* |
+| binder      | defines the binder (message broker)   |  |
+| content-type      | content type of  DataEnvelope acknowledgement messages (mime type)   | should always be *application/json*  |
 
 ##### spring/rabbitmq
 parameters related to WaCoDis message broker
