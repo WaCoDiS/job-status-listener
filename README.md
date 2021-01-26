@@ -81,35 +81,33 @@ within the [run section](#using-docker) .
 Configuration is fetched from [WaCoDiS Config Server](https://github.com/WaCoDiS/config-server). If config server is not
 available, configuration values located at *src/main/resources/application.yml*.   
 #### Parameters
-The following section contains descriptions for configuration parameters ordered by configuration section.
+The following section contains descriptions for configuration parameters structured by configuration section.
 
-##### spring/resources-api
-parameters related to the Resource API (*/resources/...*)  
-
-| value     | description       | note  |
-| ------------- |-------------| -----|
-| elasticsearch/uri     | elasticsearch server address | uri scheme must match *http://host:port* |
-| elasticsearch/index      | name of the index (containing DataEnvelopes) that should be queried   |  |
-| elasticsearch/requestTimeout_Millis  | request timeout (milliseconds) |  |
-
-##### spring/dataenvelopes-api
-parameters related to the DataEnvelope API (*/dataenvelopes/...*)  
-
-| value     | description     | note  |
-| ------------- |-------------| -----|
-| elasticsearch/uri     | elasticsearch server address | uri scheme must match *http://host:port* |
-| elasticsearch/index      | name of the index (containing DataEnvelopes) that should be queried   |  |
-| elasticsearch/requestTimeout_Millis  | request timeout (milliseconds) |  |
-| elasticsearch/indexInitialization_RetryMaxAttempts  | max attempts for index intitialization during start-up | [see Elasticsearch Index Initialization](#elasticsearch-index-initialization) |
-| elasticsearch/indexInitialization_RetryDelay_Millis  | delay between atempts for index intitialization during start-up (milliseconds) |  |
-| elasticsearch/indexInitialization_SettingsFile | location of settings file that is applied for index intitialization during start-up, if value is not provided default settings file from application resources is used|  |
-
-##### spring/cloud/stream/bindings/acknowledgeDataEnvelope
-parameters related to DataEnvelope acknowledgement messages
+##### spring/cloud/stream/bindings/tools-execute
+parameters related to messages on started processing jobs
 
 | value     | description       | note  |
 | ------------- |-------------| -----|
-| destination     | topic used for DataEnvelope acknowledgement messages | e.g. *wacodis.dataenvelope.acknowledgment* |
+| destination     | topic used to receive messages about started WaCoDiS jobs | e.g. *wacodis.test.tools.execute* |
+| binder      | defines the binder (message broker)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *wacodis_rabbit* |
+| content-type      | content type of  DataEnvelope acknowledgement messages (mime type)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *application/json* |
+
+
+##### spring/cloud/stream/bindings/wacodis.test.tools-finished
+parameters related to message on successfully finished proessing jobs
+
+| value     | description       | note  |
+| ------------- |-------------| -----|
+| destination     | topic used to receive message about successfully executed WaCoDiS jobs | e.g. *wacodis.test.tools.finished* |
+| binder      | defines the binder (message broker)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *wacodis_rabbit* |
+| content-type      | content type of  DataEnvelope acknowledgement messages (mime type)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *application/json* |
+
+##### spring/cloud/stream/bindings/wacodis.test.tools-failure
+parameters related to messages on failed processing jobs
+
+| value     | description       | note  |
+| ------------- |-------------| -----|
+| destination     | topic used to receive messages about failed WacoDiS jobs| e.g. *wacodis.test.tools.failure* |
 | binder      | defines the binder (message broker)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *wacodis_rabbit* |
 | content-type      | content type of  DataEnvelope acknowledgement messages (mime type)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *application/json* |
 
