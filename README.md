@@ -49,7 +49,7 @@ The **WaCoDiS Job Status Listerner** is an intermediate componenten that subscri
 The WaCoDiS Job Status Listener is a stand-alone Spring Boot application comprisiung only a single module.
 ### Utilized Technologies
 * Java  
-WaCoDiS Job Status Listener uses (as most of the WaCoDiS components) the java programming language. WaCoDiS Data Access is tested with Oracle JDK 8 and OpenJDK 8. Unless stated otherwise later Java versions can be used as well.
+WaCoDiS Job Status Listener uses (as most of the WaCoDiS components) the java programming language. WaCoDiS Job Status Listener is tested with Oracle JDK 8 and OpenJDK 8. Unless stated otherwise later Java versions can be used as well.
 * Maven  
 The project WaCoDiS Job Status Listener uses the build-management tool Apache [maven](https://maven.apache.org/)
 * Spring Boot  
@@ -59,14 +59,14 @@ WaCoDiS Job Status Listener is a standalone application built with the [Spring B
 an event-driven workflow. In particular, [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) is used
 for subscribing to asynchronous messages within thw WaCoDiS system.
 * RabbitMQ  
-For communication with other WaCoDiS components of the WaCoDiS system the message broker [RabbitMQ](https://www.rabbitmq.com/) is utilized. RabbitMQ is not part of WaCoDiS Data Access and therefore [must be deployed separately](#preconditions) if WaCoDIS Data Access is deployed as part of the whole WaCoDiS system. 
+For communication with other WaCoDiS components of the WaCoDiS system the message broker [RabbitMQ](https://www.rabbitmq.com/) is utilized. RabbitMQ is not part of WaCoDiS Job Status Listener and therefore [must be deployed separately](#preconditions) if WaCoDIS Job Status Listener is deployed as part of the whole WaCoDiS system. 
 * OpenAPI  
 OpenAPI is used for the specification of core WaCoDiS data model and APIs.  
 
 
 ## Installation / Building Information
 ### Build from Source
-In order to build the WaCoDiS Job Status Listener from source _Java Development Kit_ (JDK) must be available. Data Access 
+In order to build the WaCoDiS Job Status Listener from source _Java Development Kit_ (JDK) must be available. Job Status Listener
 is tested with Oracle JDK 8 and OpenJDK 8. Unless stated otherwise later JDK versions can be used.  
 
 Since this is a Maven project, [Apache Maven](https://maven.apache.org/) must be available for building it. Then, you
@@ -81,17 +81,66 @@ within the [run section](#using-docker) .
 Configuration is fetched from [WaCoDiS Config Server](https://github.com/WaCoDiS/config-server). If config server is not
 available, configuration values located at *src/main/resources/application.yml*.   
 #### Parameters
-TODO
-Describe configuration parameters
+The following section contains descriptions for configuration parameters ordered by configuration section.
+
+##### spring/resources-api
+parameters related to the Resource API (*/resources/...*)  
+
+| value     | description       | note  |
+| ------------- |-------------| -----|
+| elasticsearch/uri     | elasticsearch server address | uri scheme must match *http://host:port* |
+| elasticsearch/index      | name of the index (containing DataEnvelopes) that should be queried   |  |
+| elasticsearch/requestTimeout_Millis  | request timeout (milliseconds) |  |
+
+##### spring/dataenvelopes-api
+parameters related to the DataEnvelope API (*/dataenvelopes/...*)  
+
+| value     | description     | note  |
+| ------------- |-------------| -----|
+| elasticsearch/uri     | elasticsearch server address | uri scheme must match *http://host:port* |
+| elasticsearch/index      | name of the index (containing DataEnvelopes) that should be queried   |  |
+| elasticsearch/requestTimeout_Millis  | request timeout (milliseconds) |  |
+| elasticsearch/indexInitialization_RetryMaxAttempts  | max attempts for index intitialization during start-up | [see Elasticsearch Index Initialization](#elasticsearch-index-initialization) |
+| elasticsearch/indexInitialization_RetryDelay_Millis  | delay between atempts for index intitialization during start-up (milliseconds) |  |
+| elasticsearch/indexInitialization_SettingsFile | location of settings file that is applied for index intitialization during start-up, if value is not provided default settings file from application resources is used|  |
+
+##### spring/cloud/stream/bindings/acknowledgeDataEnvelope
+parameters related to DataEnvelope acknowledgement messages
+
+| value     | description       | note  |
+| ------------- |-------------| -----|
+| destination     | topic used for DataEnvelope acknowledgement messages | e.g. *wacodis.dataenvelope.acknowledgment* |
+| binder      | defines the binder (message broker)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *wacodis_rabbit* |
+| content-type      | content type of  DataEnvelope acknowledgement messages (mime type)   | see [binders](#springcloudstreambinderswacodis_rabbit), does not have to be changed from *application/json* |
+
+##### spring/rabbitmq
+parameters related to WaCoDis message broker
+
+| value     | description       | note  |
+| ------------- |-------------| -----|
+| host | RabbitMQ host (WaCoDiS message broker) | e.g. *localhost* |
+| port | RabbitMQ port (WaCoDiS message broker)   | e.g. *5672*|
+| username | RabbitMQ username (WaCoDiS message broker)   | |
+| password | RabbitMQ password (WaCoDiS message broker)   | |
+
+##### spring/jobdefinitionapi
+parameters to configure connection to WaCoDiS Job Manager
+
+| value     | description       | note  |
+| ------------- |-------------| -----|
+| baseurl| base URL of Job Manager service  | e.g. *http://localhost:8080* |
+| apiendpoint | API endpoint (path) for job status update   | e.g. */jobDefinitions/jobstatus/*|
+| httpmethod | HTTP-method to be used   | optional, default is PATCH |
+
 
 
 ### Deployment
 This section describes deployment scenarios, options and preconditions.
 #### Preconditions
-* (without using Docker) In order to run Data Access Java Runtime Environment (JRE) (version >= 8) must be available. In order to [build Data Access from source](#installation--building-information) Java Development Kit (JDK) version >= 8) must be abailable. Data Access is tested with Oracle JDK 8 and OpenJDK 8.
+* (without using Docker) In order to run Job Status Listener Java Runtime Environment (JRE) (version >= 8) must be available. In order to [build Job Status Listener from source](#installation--building-information) Java Development Kit (JDK) version >= 8) must be abailable. Job Status Listener is tested with Oracle JDK 8 and OpenJDK 8.
 * A (running) instance of [WaCoDiS Job Manager](https://github.com/WaCoDiS/job-definition-api) must be available 
 * In order to receive message a running instance a running instance of [RabbitMQ message broker](https://www.rabbitmq.com/) must be available.  
-* When running data access as part of the WaCoDiS system, messages are published by [WaCoDiS Core Engine](https://github.com/WaCoDiS/core-engine). For testing purposes other tools can be used to publish/mock messages about processing progress of a WaCoDiS Job.
+* When running Job Status Listener as part of the WaCoDiS system, messages are published by [WaCoDiS Core Engine](https://github.com/WaCoDiS/core-engine). For testing purposes other tools can be used to publish/mock messages about processing progress of a WaCoDiS Job.
   
 The server addresses are [configurable](#configuration).  
   
