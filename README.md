@@ -72,7 +72,7 @@ This section describes deployment scenarios, options and preconditions.
 #### Preconditions
 * (without using Docker) In order to run Data Access Java Runtime Environment (JRE) (version >= 8) must be available. In order to [build Data Access from source](#installation--building-information) Java Development Kit (JDK) version >= 8) must be abailable. Data Access is tested with Oracle JDK 8 and OpenJDK 8.
 * A (running) instance of [WaCoDiS Job Manager](https://github.com/WaCoDiS/job-definition-api) must be available 
-* In order to receive message a running instance a running inst.ance of [RabbitMQ message broker](https://www.rabbitmq.com/) must be available.  
+* In order to receive message a running instance a running instance of [RabbitMQ message broker](https://www.rabbitmq.com/) must be available.  
 * When running data access as part of the WaCoDiS system, messages are published by [WaCoDiS Core Engine](https://github.com/WaCoDiS/core-engine). For testing purposes can be used to publish/mock messages about processing progress of a WaCoDiS Job.
   
 The server addresses are [configurable](#configuration).  
