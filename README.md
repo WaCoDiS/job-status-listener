@@ -8,7 +8,6 @@ The **WaCoDiS Job Status Listener** interacts with the WaCoDiS Job Management AP
 1. [WaCoDiS Project Information](#wacodis-project-information)
   * [Architecture Overview](#architecture-overview)
 2. [Overview](#overview)
-  * [Core Data Types](#core-data-types)
   * [Modules](#modules)
   * [Utilized Technologies](#utilized-technologies)
 3. [Installation / Building Information](#installation--building-information)
