@@ -44,7 +44,7 @@ For a detailed overview about the WaCoDiS system architecture please visit the
 **[WaCoDiS Core Engine](https://github.com/WaCoDiS/core-engine)** repository.  
 
 ## Overview  
-The **WaCoDiS Job Status Listerner** is an intermediate componenten that subscribes to message about progress of running WaCoDiS processing jobs. The Job Status Listener interacts with **[WaCoDiS Job Manager](https://github.com/WaCoDiS/job-definition-api)**. Information about a job's processing progress are received via the WaCoDiS System's message broker (RabbitMQ). Received information about processing progress are used to update the corresponding job's status by communication with Job Manager's REST API.
+The **WaCoDiS Job Status Listerner** is an intermediate component that subscribes to message about progress of running WaCoDiS processing jobs. The Job Status Listener interacts with **[WaCoDiS Job Manager](https://github.com/WaCoDiS/job-definition-api)**. Information about a job's processing progress are received via the WaCoDiS System's message broker (RabbitMQ). Received information about processing progress are used to update the corresponding job's status by communication with Job Manager's REST API.
 ### Modules
 The WaCoDiS Job Status Listener is a stand-alone Spring Boot application comprisiung only a single module.
 ### Utilized Technologies
