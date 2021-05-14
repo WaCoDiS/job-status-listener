@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.wacodis</groupId>
     <artifactId>job-status-listener</artifactId>
     <version>1.0.2-SNAPSHOT</version>
     <name>WaCoDiS Job Status Listener</name>
     <packaging>jar</packaging>
-    
-    
+
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
@@ -18,21 +19,22 @@
         <mockito.version>2.21.0</mockito.version>
         <app.finalName>${project.artifactId}-${project.version}</app.finalName>
         <release-plugin.version>3.0.0-M1</release-plugin.version>
+        <project.inceptionYear>2018</project.inceptionYear>
     </properties>
-    
+
     <scm>
         <url>https://github.com/WaCoDiS/job-status-listener/</url>
         <connection>scm:git:git://github.com/WaCoDiS/job-status-listener.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/WaCoDiS/job-status-listener.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
-    
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.10.RELEASE</version>
     </parent>
-    
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -44,7 +46,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -66,7 +68,7 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
-        
+
         <!--SpringFox dependencies -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -101,16 +103,15 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
-        </dependency>      
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
 
-    
+
     <build>
         <finalName>${app.finalName}</finalName>
         <plugins>
@@ -126,11 +127,105 @@
                     <pushChanges>false</pushChanges>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>project.properties['currentYearDynamic'] = java.time.Year.now().toString()</source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <inherited>false</inherited>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <header>etc/license-header.txt</header>
+                    <includes>
+                        <include>src/**/*.java</include>
+                        <include>src/**/*.xml</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/src/test/resources/**</exclude>
+                        <exclude>src/**/model/*.java</exclude>
+                    </excludes>
+                    <strictCheck>true</strictCheck>
+                    <properties>
+                        <year>${project.inceptionYear}-${currentYearDynamic}</year>
+                    </properties>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>format-license-headers</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jasig.maven</groupId>
+                <artifactId>maven-notice-plugin</artifactId>
+                <version>1.1.0</version>
+                <configuration>
+                    <noticeTemplate>etc/notice-template.txt</noticeTemplate>
+                    <licenseMapping>
+                        <param>http://52north.github.io/cdn/licenses/license-mappings.xml</param>
+                    </licenseMapping>
+                    <generateChildNotices>false</generateChildNotices>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>check-license</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-    
-    
+
+
     <profiles>
+        <profile>
+            <id>create-license-list</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <version>2.0.0</version>
+                        <configuration>
+                            <useMissingFile>true</useMissingFile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>create-license-list</id>
+                                <goals>
+                                    <goal>add-third-party</goal>
+                                    <!--                                    <goal>aggregate-add-third-party</goal>-->
+                                </goals>
+                                <phase>generate-resources</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <!--Unpack the model definition file from dependency and generate the models.-->
         <profile>
             <id>generate-models</id>
@@ -170,8 +265,9 @@
                                 <goals>
                                     <goal>generate</goal>
                                 </goals>
-                                <configuration>                    
-                                    <inputSpec>${project.basedir}/src/main/resources/definitions/wacodis-schemas.yml</inputSpec>
+                                <configuration>
+                                    <inputSpec>${project.basedir}/src/main/resources/definitions/wacodis-schemas.yml
+                                    </inputSpec>
                                     <generatorName>spring</generatorName>
                                     <output>${project.basedir}</output>
                                     <modelPackage>de.wacodis.jobstatuslistener.model</modelPackage>
@@ -222,12 +318,14 @@
                                 </goals>
                                 <configuration>
                                     <overwrite>true</overwrite>
-                                    <url>https://raw.githubusercontent.com/WaCoDiS/apis-and-workflows/master/openapi/src/main/definitions/wacodis-schemas.yml</url>
+                                    <url>
+                                        https://raw.githubusercontent.com/WaCoDiS/apis-and-workflows/master/openapi/src/main/definitions/wacodis-schemas.yml
+                                    </url>
                                     <unpack>false</unpack>
                                     <outputDirectory>${project.basedir}/src/main/resources/definitions</outputDirectory>
                                     <skipCache>true</skipCache>
                                 </configuration>
-                            </execution>                                   
+                            </execution>
                         </executions>
                     </plugin>
                     <plugin>
@@ -239,12 +337,13 @@
                                 <goals>
                                     <goal>generate</goal>
                                 </goals>
-                                <configuration>                    
-                                    <inputSpec>${project.basedir}/src/main/resources/definitions/wacodis-schemas.yml</inputSpec>
+                                <configuration>
+                                    <inputSpec>${project.basedir}/src/main/resources/definitions/wacodis-schemas.yml
+                                    </inputSpec>
                                     <generatorName>spring</generatorName>
                                     <output>${project.basedir}</output>
                                     <modelPackage>de.wacodis.jobstatuslistener.model</modelPackage>
-                            
+
                                     <generateApis>false</generateApis>
                                     <generateModels>true</generateModels>
                                     <generateSupportingFiles>false</generateSupportingFiles>
