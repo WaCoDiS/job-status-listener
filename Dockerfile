@@ -1,5 +1,5 @@
 # build image
-FROM maven:3.5.4-jdk-8 AS build  
+FROM maven:3.5.4-jdk-8-alpine AS build
 
 COPY . /
 RUN mvn -f /pom.xml clean install -DskipTests -Dapp.finalName=job-status-listener
